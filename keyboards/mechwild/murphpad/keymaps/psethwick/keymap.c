@@ -1,4 +1,4 @@
-/* Copyright 2021 Kyle McCreery
+/* Copyright 2021 Seth Rider with apologies to Kyle McCreery
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,39 +18,38 @@
 // Defines names for use in layer keycodes and the keymap
 
 enum layer_names {
-  _ALPHA,
-  _SHF,
-  _CTL,
-  _ALT,
-  _SUP
+  _NUMB,
+  _WM,
+  _DR,
+  _DW
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
-    [_BASE] = LAYOUT(
-		  KC_A,   KC_B,    KC_C,   KC_D,
-		  KC_E,   KC_F,    KC_G,   KC_H,
-		  KC_I,   KC_J,    KC_K,   KC_L,
-        TO(_S),   KC_P4,  KC_,     KC_P6,   _______,
-        MO(_FN1), KC_P1,  KC_,     KC_P3,   KC_PENT,
-        KC_BSPC,  KC_P0,   _______, KC_PDOT, _______,
+    [_NUMB] = LAYOUT(
+                TO(_NUMB), TO(_WM), TO(_DR), TO(_DW),
+		  KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,
+                  KC_P7,   KC_P8,   KC_P9,   KC_PPLS,
+        KC_MUTE,  KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
+        TO(_WM),  KC_P1,   KC_P2,   KC_P3,   KC_PENT,
+        KC_BSPC,  KC_P0,   _______, KC_PDOT, KC_PENT,
 
                   KC_F5,   KC_F6,   KC_F7
 
     ),
-    [_FN1] = LAYOUT(
-                 _______,  _______, _______, _______,
-                 _______,  _______, _______, _______,
-                 RGB_HUD,  RGB_SPI, RGB_HUI, _______,
-        _______, RGB_RMOD, RGB_TOG, RGB_MOD, _______,
-        _______, RGB_VAD,  RGB_SPD, RGB_VAI, _______,
-        _______, RGB_SAD,  _______, RGB_SAI, _______,
+    [_WM] = LAYOUT(
+                 _______,  _______, _______, _______,  
+                 _______,  _______, _______, _______,  
+                 G(KC_5),  G(KC_6), G(KC_7), G(KC_8),
+        _______, G(KC_1),  G(KC_2), G(KC_3), G(KC_4),
+     G(KC_LBRC), G(KC_H),  G(KC_J), G(KC_K), G(KC_L),
+        KC_LSFT, RGB_SAD,  _______, RGB_SAI, _______,
 
                  _______, _______, _______
 
     ),
-	  [_FN2] = LAYOUT(
+	  [_DR] = LAYOUT(
                   _______, _______, _______, _______,
                   _______, _______, _______, _______,
                   _______, _______, _______, _______,
@@ -61,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                   _______, _______, _______
 
     ),
-	  [_FN3] = LAYOUT(
+	  [_DW] = LAYOUT(
                   _______, _______, _______, _______,
                   _______, _______, _______, _______,
                   _______, _______, _______, _______,
@@ -101,39 +100,39 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		return OLED_ROTATION_270;       // flips the display 270 degrees
 	}
 
-	static void render_penis(void) {
-		static const char PROGMEM penis[] = {
+	static void render_icon(void) {
+		static const char PROGMEM icon[] = {
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x20, 0x10, 0x08, 0x0c, 
-	0x04, 0x12, 0x0a, 0x06, 0x06, 0x0c, 0x18, 0x30, 0xc0, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x1f, 0x02, 0x04, 0x0c, 0xb4, 0x44, 
-	0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x0c, 0xfc, 0xfe, 0x0f, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x80, 0x40, 0x20, 0x20, 0x10, 0x10, 0x08, 0x07, 0x08, 0x08, 0x08, 0x0e, 0x19, 0x30, 
-	0xe0, 0xc0, 0x20, 0x10, 0x10, 0x08, 0x0e, 0x0f, 0x0f, 0x08, 0x18, 0x38, 0x70, 0xe0, 0xc0, 0x00, 
-	0x06, 0x09, 0x10, 0x20, 0x20, 0x20, 0x40, 0xc0, 0xc0, 0xc0, 0xe0, 0xe0, 0x70, 0x38, 0x3c, 0x1e, 
-	0x0f, 0x07, 0x1c, 0x20, 0x20, 0x20, 0x40, 0x40, 0x40, 0x60, 0x70, 0x78, 0x3c, 0x3f, 0x1f, 0x0f
+			0x04, 0x12, 0x0a, 0x06, 0x06, 0x0c, 0x18, 0x30, 0xc0, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x1f, 0x02, 0x04, 0x0c, 0xb4, 0x44, 
+			0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x0c, 0xfc, 0xfe, 0x0f, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 
+			0x00, 0x00, 0x80, 0x40, 0x20, 0x20, 0x10, 0x10, 0x08, 0x07, 0x08, 0x08, 0x08, 0x0e, 0x19, 0x30, 
+			0xe0, 0xc0, 0x20, 0x10, 0x10, 0x08, 0x0e, 0x0f, 0x0f, 0x08, 0x18, 0x38, 0x70, 0xe0, 0xc0, 0x00, 
+			0x06, 0x09, 0x10, 0x20, 0x20, 0x20, 0x40, 0xc0, 0xc0, 0xc0, 0xe0, 0xe0, 0x70, 0x38, 0x3c, 0x1e, 
+			0x0f, 0x07, 0x1c, 0x20, 0x20, 0x20, 0x40, 0x40, 0x40, 0x60, 0x70, 0x78, 0x3c, 0x3f, 0x1f, 0x0f
 		};
-		oled_write_raw_P(penis, sizeof(penis));
+		oled_write_raw_P(icon, sizeof(icon));
 
 	}
 
 	void oled_task_user(void) {
-		render_penis();
+		render_icon();
 		oled_set_cursor(0,6);
 
-		oled_write_ln_P(PSTR("Layer"), false);
-
     switch (get_highest_layer(layer_state)) {
-        case _BASE:
-            oled_write_ln_P(PSTR("Base"), false);
+        case _NUMB:
+            oled_write_ln_P(PSTR("NUMB"), false);
             break;
-        case _FN1:
-            oled_write_ln_P(PSTR("FN 1"), false);
+        case _WM:
+            oled_write_ln_P(PSTR("WIN"), false);
             break;
-        case _FN2:
-            oled_write_ln_P(PSTR("FN 2"), false);
+        case _DR:
+            oled_write_ln_P(PSTR("DEEB"), false);
+            oled_write_ln_P(PSTR("REG"), false);
             break;
-        case _FN3:
-            oled_write_ln_P(PSTR("FN 3"), false);
+        case _DW:
+            oled_write_ln_P(PSTR("DEEB"), false);
+            oled_write_ln_P(PSTR("WEB"), false);
             break;
         default:
             oled_write_ln_P(PSTR("Undef"), false);
